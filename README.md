@@ -52,3 +52,12 @@ Python-Projects/
 ├── README.md
 ├── requirements.txt
 └── venv/          # ignored via .gitignore
+
+
+
+---
+
+⚠️ Disclaimer
+
+This project is for educational and analytical purposes only and does not constitute financial or investment advice.
+
