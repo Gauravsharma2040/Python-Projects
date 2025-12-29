@@ -56,7 +56,32 @@ df["MACD"] = df["EMA12"] - df["EMA26"]
 df["Signal"] = df["MACD"].ewm(span=9, adjust=False).mean()
 
 # ---------------------------------------------------
-# 3. PLOT THE RESULTS
+# 3. FEATURE ENGINEERING
+# ---------------------------------------------------
+
+df["Return_1d"] = df["Close"].pct_change()
+df["Return_3d"] = df["Close"].pct_change(3)
+
+df["Volatility_5d"] = df["Return_1d"].rolling(5).std()
+df["Volatility_10d"] = df["Return_1d"].rolling(10).std()
+
+df["MACD_hist"] = df["MACD"] - df["Signal"]
+
+df["RSI_overbought"] = (df["RSI"] > 70).astype(int)
+df["RSI_oversold"] = (df["RSI"] < 30).astype(int)
+features = [
+    "SMA20", "SMA50", "EMA20",
+    "RSI", "MACD", "Signal", "MACD_hist",
+    "Return_1d", "Return_3d",
+    "Volatility_5d", "Volatility_10d",
+    "RSI_overbought", "RSI_oversold"
+]
+
+df_ml = df[features + ["Target"]].dropna()
+
+
+# ---------------------------------------------------
+# 4. PLOT THE RESULTS
 # ---------------------------------------------------
 
 plt.style.use("seaborn-v0_8")
